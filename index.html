@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Funcs Editor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <style type="text/css" media="screen">
+        #editor {
+            position: relative;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 70vh;
+            font-size: 18px;
+        }
+
+        .section {
+            padding-top: 0;
+        }
+
+        div.notification {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container is-fullhd">
+            <div class="notification mb-0 is-light is-flex is-justify-content-space-between">
+                <div class="field is-horizontal mb-0">
+                    <div class="field-body">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <a class="button is-static is-small">
+                                        https://mende.alwaysdata.net/funcs/mende/
+                                    </a>
+                                </p>
+                                <p class="control is-expanded">
+                                    <input class="input is-small" type="tel" placeholder="endpoint">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button is-small is-success"><span class="icon is-small">
+                        <i class="fas fa-save"></i>
+                    </span> <span>Enregistrer les modifications</span></button>
+            </div>
+            <div id="editor"></div>
+        </div>
+    </section>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="assets/js/ace/ace.js"></script>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/php");
+        editor.insert(`<?php\n\nfunction func($request)\n{\n    $x = "All this is syntax highlighted";\n    return x;\n}`);
+    </script>
+</body>
+
+</html>
