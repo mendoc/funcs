@@ -22,9 +22,6 @@
             padding-top: 0;
         }
 
-        div.notification {
-            margin-bottom: 0;
-        }
     </style>
 </head>
 
@@ -62,7 +59,7 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/php");
-        editor.insert(`<?php\n\nfunction func($request)\n{\n    $x = "All this is syntax highlighted";\n    return x;\n}`);
+        editor.insert(`<?php\n\nfunction func($request)\n{\n    return [\n        "status" => 200, \n        "body"   => "Hello everyone"\n    ];\n}`);
     </script>
 </body>
 
