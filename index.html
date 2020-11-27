@@ -1,106 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Funcs Editor</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Liste des fonctions</title>
+
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
-	<style type="text/css" media="screen">
-		#editor {
-			position: relative;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			height: 70vh;
-			font-size: 18px;
-		}
-
-		.section {
-			padding-top: 0;
-		}
-	</style>
 </head>
 
-<body>
-	<section class="section">
+<body onload="get_functions()" class="has-background-light">
+	<section class="section pt-0">
 		<div class="container is-fullhd">
-			<div class="notification mb-0 is-light is-flex is-justify-content-space-between">
-				<h1 class="is-unselectable">
-                    <a href="functions.html">
-                        <span class="icon is-small">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                        </span>Liste des fonctions
-                    </a>
-                </h1>
-				<div class="field is-horizontal mb-0">
-					<div class="field-body">
-						<div class="field is-expanded">
-							<div class="field has-addons">
-								<p class="control">
-									<a class="button is-static is-small">
-										https://mende.alwaysdata.net/funcs/public/
-									</a>
-								</p>
-								<p class="control is-expanded">
-									<input class="input is-small" type="text" id="endpoint" placeholder="endpoint">
-                                </p>
-								<button class="button is-small is-link" onclick="test()">
-                                    <span>Tester</span>
-                                    <span class="icon is-small">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
-                                    </span>
-                                </button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<button class="button is-small is-success" onclick="save()">
-                    <span class="icon is-small">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z"></path></svg>
-                    </span>
-                    <span>Enregistrer les modifications</span>
-                </button>
+			<div class="notification is-light is-flex is-justify-content-space-between has-background-dark">
+				<h1 class="is-unselectable has-text-white">PHP Functions</h1>
+				<a class="button is-small is-warning" href="create.html">
+                    <span class="icon is-small"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path></svg></span>
+                    <span>Créer une fonction</span>
+                </a>
 			</div>
-			<div id="editor"></div>
+			<table class="table is-fullwidth is-hidden has-background-light">
+				<thead>
+					<tr>
+						<th>Nom de la fonction</th>
+						<th>URL</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
 		</div>
 	</section>
 
-	<script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-	<script src="assets/js/ace/ace.js"></script>
-	<script>
-		const editor = ace.edit("editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/php");
-        editor.insert(`<?php\n\nfunction func($request)\n{\n    return [\n        "status" => 200,\n        "body"   => "Hello everyone"\n    ];\n}`);
-	</script>
 
 	<script>
-		function test() {
-            const endpoint = document.querySelector("#endpoint").value;
-            if (!endpoint) return;
-            window.open(`https://mende.alwaysdata.net/funcs/public/${endpoint}`, '_blank');
-        }
-		function save() {
-            const endpoint = document.querySelector("#endpoint").value;
-            if (!endpoint) return;
-            const func = {
-                owner: "public",
-                name: endpoint,
-                code: editor.getValue()
-            }
-            fetch('https://mende.alwaysdata.net/funcs/save', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `funcowner=${func.owner}&funcname=${func.name}&funccode=${func.code}`
-            }).then(res => {
+		function get_functions() {
+            const owner = "public";
+            
+            fetch(`https://mende.alwaysdata.net/funcs/${owner}/functions`)
+            .then(res => {
                 return res.json();
             }).then(res => {
-                console.log(res)
+                document.querySelector("table").classList.toggle("is-hidden");
+                const listEl = document.querySelector("tbody");
+                res.funcs.forEach(func => {
+                    listEl.innerHTML += `<tr>
+                        <th><a href="edit.html?url=${func.url}">${func.name}</a></th>
+						<th><a href="${func.url}" title="Cliquez pour la tester" target="_blank" class="has-text-grey is-family-code has-text-weight-light is-size-7">${func.url}</a></th>
+						<td>
+							<div class="buttons are-small">
+								<a href="edit.html?url=${func.url}" class="button is-primary">
+                                    <span class="icon is-small"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg></span>
+                                    <span>Modifier</span>
+                                </a>
+							</div>
+						</td>
+					</tr>`;
+                })
             }).catch(err => {
                 console.error(err)
             })
