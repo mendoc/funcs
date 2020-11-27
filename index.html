@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liste des fonctions - PHP Functions</title>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Liste des fonctions</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+  </head>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-</head>
-
-<body onload="get_functions()" class="has-background-light">
-	<section class="section pt-0">
-		<div class="container is-fullhd">
-			<div class="notification is-light is-flex is-justify-content-space-between has-background-dark">
-				<h1 class="is-unselectable has-text-white">PHP Functions</h1>
-				<a class="button is-small is-warning" href="create">
-                    <span class="icon is-small"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path></svg></span>
+  <body onload="get_functions()" class="has-background-light">
+    <section class="section pt-0">
+      <div class="container is-fullhd">
+        <div
+          class="notification is-light is-flex is-justify-content-space-between has-background-dark"
+        >
+          <h1 class="is-unselectable has-text-white">PHP Functions</h1>
+          <div class="field is-horizontal mb-0">
+            <div class="field-body">
+              <div class="field is-expanded">
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button is-static is-small">
+                      Nom de la fonction
+                    </a>
+                  </p>
+                  <p class="control is-expanded">
+                    <input
+                      class="input is-small"
+                      type="text"
+                      id="endpoint"
+                      placeholder="Ex: user_list"
+                    />
+                  </p>
+                  <button class="button is-small is-link is-warning" onclick="test()">
+                    <span class="icon is-small">
+                      <svg
+                        class="w-6 h-6"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </span>
                     <span>Créer une fonction</span>
-                </a>
-			</div>
-			<table class="table is-fullwidth is-hidden has-background-light">
-				<thead>
-					<tr>
-						<th>Nom de la fonction</th>
-						<th>URL</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</div>
-	</section>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <table class="table is-fullwidth is-hidden has-background-light">
+          <thead>
+            <tr>
+              <th>Nom de la fonction</th>
+              <th>URL</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
 
+    <script>
+      function get_functions() {
+        const owner = "public";
 
-	<script>
-		function get_functions() {
-            const owner = "public";
-            
-            fetch(`https://mende.alwaysdata.net/funcs/${owner}/functions`)
-            .then(res => {
-                return res.json();
-            }).then(res => {
-                document.querySelector("table").classList.toggle("is-hidden");
-                const listEl = document.querySelector("tbody");
-                res.funcs.forEach(func => {
-                    listEl.innerHTML += `<tr>
+        fetch(`https://mende.alwaysdata.net/funcs/${owner}/functions`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            document.querySelector("table").classList.toggle("is-hidden");
+            const listEl = document.querySelector("tbody");
+            res.funcs.forEach((func) => {
+              listEl.innerHTML += `<tr>
                         <th><a href="edit?url=${func.url}">${func.name}</a></th>
 						<th><a href="${func.url}" title="Cliquez pour la tester" target="_blank" class="has-text-grey is-family-code has-text-weight-light is-size-7">${func.url}</a></th>
 						<td>
@@ -56,13 +94,12 @@
 							</div>
 						</td>
 					</tr>`;
-                })
-            }).catch(err => {
-                console.error(err)
-            })
-        }
-        
-	</script>
-</body>
-
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    </script>
+  </body>
 </html>
