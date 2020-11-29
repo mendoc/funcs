@@ -1,5 +1,4 @@
-/       /index.html   200! Role=admin
-/       /login        401!
+/       /index.html   200
 /edit   /edit.html    200
 /create /create.html  200
 /login  /login.html   200
