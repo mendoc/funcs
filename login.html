@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion - PHP Functions</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+    ></script>
+  </head>
+
+  <body>
+    <section class="section pt-0">
+      <div class="container is-fullhd">
+        <div
+          class="notification is-light is-flex is-justify-content-space-between has-background-dark"
+        >
+          <h1 class="is-unselectable has-text-white">PHP Functions</h1>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-8 is-offset-2">
+            <article class="message mt-6">
+              <div class="message-body">
+                <h2 class="title">Bienveue à vous</h2>
+                <p>Pour continuer prière de vous authentifier.</p>
+                <button class="button mt-6 is-info">
+                  <span class="icon is-medium">
+                    <svg
+                      class="w-6 h-6"
+                      fill="currentColor"
+                      viewbox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <span onclick="netlifyIdentity.open()">Authentification</span>
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      window.baseURL = "https://mende.alwaysdata.net/funcs";
+
+      netlifyIdentity.setLocale('fr');
+
+      netlifyIdentity.on('init', user => console.log('init', user));
+
+      function create_function() {
+        const funcnameEl = document.querySelector("#funcname");
+        funcnameEl.setAttribute("disabled", "true");
+
+        if (!funcnameEl.value) return;
+
+        const func = {
+          owner: "public",
+          name: funcnameEl.value,
+          code: "[pf::init]",
+        };
+        fetch(`${window.baseURL}/save`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `funcowner=${func.owner}&funcname=${func.name}&funccode=${func.code}`,
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            location.href = `edit?url=${window.baseURL}/${func.owner}/${func.name}`;
+          })
+          .catch((err) => {
+            funcnameEl.removeAttribute("disabled");
+            console.error(err);
+          });
+      }
+
+      function get_functions() {
+        const owner = "public";
+
+        fetch(`${window.baseURL}/${owner}/functions`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            document.querySelector("table").classList.toggle("is-hidden");
+            const listEl = document.querySelector("tbody");
+            res.funcs.forEach((func) => {
+              listEl.innerHTML += `<tr>
+                        <th><a href="edit?url=${func.url}">${func.name}</a></th>
+						<th><a href="${func.url}" title="Cliquez pour la tester" target="_blank" class="has-text-grey is-family-code has-text-weight-light is-size-7">${func.url}</a></th>
+						<td>
+							<div class="buttons are-small">
+								<a href="edit?url=${func.url}" class="button is-primary">
+                                    <span class="icon is-small"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg></span>
+                                    <span>Modifier</span>
+                                </a>
+							</div>
+						</td>
+					</tr>`;
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    </script>
+  </body>
+</html>
