@@ -16,7 +16,7 @@
     ></script>
   </head>
 
-  <body>
+  <body class="is-hidden">
     <section class="section pt-0">
       <div class="container is-fullhd">
         <div
@@ -53,71 +53,21 @@
     </section>
 
     <script>
-      window.baseURL = "https://mende.alwaysdata.net/funcs";
+      netlifyIdentity.setLocale("fr");
 
-      netlifyIdentity.setLocale('fr');
+      netlifyIdentity.on("init", (user) => {
+        if (user) {
+          location.href = "/";
+        } else {
+          document.querySelector("body").classList.remove("is-hidden");
+        }
+      });
 
-      netlifyIdentity.on('init', user => console.log('init', user));
-
-      function create_function() {
-        const funcnameEl = document.querySelector("#funcname");
-        funcnameEl.setAttribute("disabled", "true");
-
-        if (!funcnameEl.value) return;
-
-        const func = {
-          owner: "public",
-          name: funcnameEl.value,
-          code: "[pf::init]",
-        };
-        fetch(`${window.baseURL}/save`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `funcowner=${func.owner}&funcname=${func.name}&funccode=${func.code}`,
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-            location.href = `edit?url=${window.baseURL}/${func.owner}/${func.name}`;
-          })
-          .catch((err) => {
-            funcnameEl.removeAttribute("disabled");
-            console.error(err);
-          });
-      }
-
-      function get_functions() {
-        const owner = "public";
-
-        fetch(`${window.baseURL}/${owner}/functions`)
-          .then((res) => {
-            return res.json();
-          })
-          .then((res) => {
-            document.querySelector("table").classList.toggle("is-hidden");
-            const listEl = document.querySelector("tbody");
-            res.funcs.forEach((func) => {
-              listEl.innerHTML += `<tr>
-                        <th><a href="edit?url=${func.url}">${func.name}</a></th>
-						<th><a href="${func.url}" title="Cliquez pour la tester" target="_blank" class="has-text-grey is-family-code has-text-weight-light is-size-7">${func.url}</a></th>
-						<td>
-							<div class="buttons are-small">
-								<a href="edit?url=${func.url}" class="button is-primary">
-                                    <span class="icon is-small"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg></span>
-                                    <span>Modifier</span>
-                                </a>
-							</div>
-						</td>
-					</tr>`;
-            });
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
+      netlifyIdentity.on("login", (user) => {
+        if (user) {
+          location.href = "/";
+        }
+      });
     </script>
   </body>
 </html>

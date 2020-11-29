@@ -9,9 +9,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
     />
+
+    <script
+      type="text/javascript"
+      src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+    ></script>
   </head>
 
-  <body onload="get_functions()" class="has-background-light">
+  <body onload="get_functions()" class="has-background-light is-hidden">
     <section class="section pt-0">
       <div class="container is-fullhd">
         <div
@@ -70,6 +75,16 @@
 
     <script>
       window.baseURL = "https://mende.alwaysdata.net/funcs";
+
+      netlifyIdentity.setLocale("fr");
+
+      netlifyIdentity.on("init", (user) => {
+        if (!user) {
+          location.href = "/login";
+        } else {
+          document.querySelector("body").classList.remove("is-hidden");
+        }
+      });
 
       function create_function() {
         const funcnameEl = document.querySelector("#funcname");

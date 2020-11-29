@@ -24,6 +24,11 @@
         padding-top: 0;
       }
     </style>
+
+    <script
+      type="text/javascript"
+      src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+    ></script>
   </head>
 
   <body onload="load_function()">
@@ -98,7 +103,10 @@
             </span>
             <span>Enregistrer les modifications</span>
           </button>
-          <p id="msg-save" class="is-italic is-size-7 is-hidden has-text-weight-bold"></p>
+          <p
+            id="msg-save"
+            class="is-italic is-size-7 is-hidden has-text-weight-bold"
+          ></p>
         </div>
         <div id="editor" class="is-hidden"></div>
       </div>
@@ -124,6 +132,16 @@
 
     <script>
       window.baseURL = "https://mende.alwaysdata.net/funcs/";
+
+      netlifyIdentity.setLocale("fr");
+
+      netlifyIdentity.on("init", (user) => {
+        if (!user) {
+          location.href = "/login";
+        } else {
+          document.querySelector("body").classList.remove("is-hidden");
+        }
+      });
 
       function test() {
         const funcUrl = document.querySelector("a.is-static").textContent;
