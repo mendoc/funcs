@@ -60,6 +60,30 @@
             </div>
           </div>
         </div>
+        <div class="box">
+          <article class="media">
+            <div class="media-left">
+              <figure class="image is-64x64">
+                <img
+                  src="https://lh3.googleusercontent.com/a-/AOh14GhX7BLzIHcCGxthmH59bJ4Hpo0Y2zWAFwbxGdCvOQ=s96-c"
+                  alt="Profile photo"
+                  class="is-rounded"
+                />
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content mt-2">
+                <p>
+                  <strong>Dimitri ONGOUA</strong>
+                  <br />
+                  <a class="is-size-7 is-clickable has-text-info" onclick="netlifyIdentity.logout()">
+                    Déconnexion
+                  </a>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
         <table class="table is-fullwidth is-hidden">
           <thead>
             <tr>
@@ -79,11 +103,16 @@
       netlifyIdentity.setLocale("fr");
 
       netlifyIdentity.on("init", (user) => {
-        if (!user) {
+        if (!user && !location.href.includes("gitpod")) {
           location.href = "/login";
         } else {
           document.querySelector("body").classList.remove("is-hidden");
         }
+      });
+
+      netlifyIdentity.on("logout", () => {
+        console.log("Logged out");
+        location.href = "/login";
       });
 
       function create_function() {
