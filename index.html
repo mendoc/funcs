@@ -101,8 +101,8 @@
         </div>
         <div class="notification is-hidden message-no-functions">
           <h2 class="title">Créez votre première fonction</h2>
-          Vous n'avez pas encore de fonctions. Vous pouvez en créer grâce à
-          la section en haut à droite.
+          Vous n'avez pas encore de fonctions. Vous pouvez en créer grâce à la
+          section en haut à droite.
         </div>
         <table class="table is-fullwidth is-hidden">
           <thead>
@@ -126,14 +126,14 @@
         if (!user && !location.href.includes("gitpod")) {
           location.href = "/login";
         } else {
-          const username = user.user_metadata.full_name;
+          /*const username = user.user_metadata.full_name;
           document.getElementById("username").textContent = username;
 
           if (user.user_metadata.avatar_url) {
             const img = document.querySelector("figure img");
             img.setAttribute("src", user.user_metadata.avatar_url);
             document.querySelector(".media-left").classList.remove("is-hidden");
-          }
+          }*/
           get_functions();
           document.querySelector("body").classList.remove("is-hidden");
         }
@@ -179,10 +179,11 @@
       }
 
       function get_functions() {
-        checkUser();
+        /*checkUser();
 
         const user = netlifyIdentity.currentUser();
-        const owner = user.id;
+        const owner = user.id;*/
+        const owner = "public";
 
         fetch(`${window.baseURL}/${owner}/functions`)
           .then((res) => {
@@ -190,14 +191,19 @@
           })
           .then((res) => {
             if (!res.funcs) {
-              document.querySelector(".message-no-functions").classList.remove("is-hidden");
+              document
+                .querySelector(".message-no-functions")
+                .classList.remove("is-hidden");
               return;
             }
             document.querySelector("table").classList.toggle("is-hidden");
             const listEl = document.querySelector("tbody");
             res.funcs.forEach((func) => {
               listEl.innerHTML += `<tr>
-                         <th><a href="edit?url=${func.url}">${func.name}</a></th>
+                         <th>
+                            <a href="edit?url=${func.url}">${func.name}</a>
+                            <p class="is-size-7" style="max-width: 300px">${func.desc}</p>
+                         </th>
                             <th><a href="${func.url}" title="Cliquez pour tester" target="_blank" class="has-text-grey is-family-code has-text-weight-light is-size-7">${func.url}</a></th>
                             <td>
                                 <div class="buttons are-small">
