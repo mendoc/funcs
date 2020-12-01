@@ -16,7 +16,7 @@
     ></script>
   </head>
 
-  <body onload="get_functions()" class="has-background-light is-hidden">
+  <body class="has-background-light is-hidden">
     <section class="section pt-0">
       <div class="container is-fullhd">
         <div
@@ -113,8 +113,8 @@
                 img.setAttribute.("src", user.user_metadata.avatar_url);
                 document.querySelector("media-left").classList.remove("is-hidden");
             }
-
-           document.querySelector("body").classList.remove("is-hidden");
+            get_functions();
+            document.querySelector("body").classList.remove("is-hidden");
          }
        });
 
@@ -137,6 +137,7 @@
            name: funcnameEl.value,
            code: "[pf::init]",
          };
+
          fetch(`${window.baseURL}/save`, {
            method: "POST",
            headers: {
