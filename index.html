@@ -65,16 +65,16 @@
             <div class="media-left">
               <figure class="image is-64x64">
                 <img
-                  src="https://lh3.googleusercontent.com/a-/AOh14GhX7BLzIHcCGxthmH59bJ4Hpo0Y2zWAFwbxGdCvOQ=s96-c"
-                  alt="Profile photo"
-                  class="is-rounded"
+                  src=""
+                  alt="Photo de profil"
+                  class="is-rounded is-hidden"
                 />
               </figure>
             </div>
             <div class="media-content">
               <div class="content mt-2">
                 <p>
-                  <strong>Dimitri ONGOUA</strong>
+                  <strong id="username">Dimitri ONGOUA</strong>
                   <br />
                   <a
                     class="is-size-7 is-clickable has-text-info"
@@ -109,6 +109,8 @@
         if (!user && !location.href.includes("gitpod")) {
           location.href = "/login";
         } else {
+          const username = user.user_metadata.full_name;
+          document.getElementById("username").textContent = username;
           document.querySelector("body").classList.remove("is-hidden");
         }
       });
@@ -164,6 +166,7 @@
           .then((res) => {
             document.querySelector("table").classList.toggle("is-hidden");
             const listEl = document.querySelector("tbody");
+            if (!res.funcs) return;
             res.funcs.forEach((func) => {
               listEl.innerHTML += `<tr>
                         <th><a href="edit?url=${func.url}">${func.name}</a></th>
