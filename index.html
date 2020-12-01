@@ -99,6 +99,11 @@
             </div>
           </article>
         </div>
+        <div class="notification is-hidden message-no-functions">
+          <h2 class="title">Créez votre première fonction</h2>
+          Vous n'avez pas encore de fonctions. Vous pouvez en créer grâce à
+          section en haut à droite.
+        </div>
         <table class="table is-fullwidth is-hidden">
           <thead>
             <tr>
@@ -184,9 +189,12 @@
             return res.json();
           })
           .then((res) => {
+            if (!res.funcs) {
+              document.querySelector(".message-no-functions").classList.remove("is-hidden");
+              return;
+            }
             document.querySelector("table").classList.toggle("is-hidden");
             const listEl = document.querySelector("tbody");
-            if (!res.funcs) return;
             res.funcs.forEach((func) => {
               listEl.innerHTML += `<tr>
                          <th><a href="edit?url=${func.url}">${func.name}</a></th>
