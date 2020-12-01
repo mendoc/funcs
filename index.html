@@ -183,7 +183,6 @@
 
         const user = netlifyIdentity.currentUser();
         const owner = user.id;
-        const owner = "public";
 
         fetch(`${window.baseURL}/${owner}/functions`)
           .then((res) => {
