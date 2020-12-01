@@ -109,8 +109,8 @@
            document.getElementById("username").textContent = username;
 
             if (user.user_metadata.avatar_url){
-                const img = document.querySelector("figure img")
-                img.setAttribute.("src", user.user_metadata.avatar_url);
+                const img = document.querySelector("figure img");
+                img.setAttribute("src", user.user_metadata.avatar_url);
                 document.querySelector("media-left").classList.remove("is-hidden");
             }
             get_functions();
