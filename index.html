@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Liste des fonctions - PHP Functions</title>
 
+    <!-- Metas SEO -->
+    <meta
+      name="Description"
+      content="Plateforme de création de fonctions PHP sans serveur."
+    />
+    <meta name="Keywords" content="PHP, serverless, functions" />
+    <meta name="Subject" content="Fonctions PHP" />
+    <meta name="Copyright" content="Dimitri ONGOUA" />
+    <meta name="Author" content="Dimitri ONGOUA" />
+    <meta name="Identifier-Url" content="https://php-funcs.netlify.app" />
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
@@ -97,82 +108,82 @@
     </section>
 
     <script>
-       window.baseURL = "https://mende.alwaysdata.net/funcs";
+      window.baseURL = "https://mende.alwaysdata.net/funcs";
 
-       netlifyIdentity.setLocale("fr");
+      netlifyIdentity.setLocale("fr");
 
-       netlifyIdentity.on("init", (user) => {
-         if (!user && !location.href.includes("gitpod")) {
-           location.href = "/login";
-         } else {
-           const username = user.user_metadata.full_name;
-           document.getElementById("username").textContent = username;
+      netlifyIdentity.on("init", (user) => {
+        if (!user && !location.href.includes("gitpod")) {
+          location.href = "/login";
+        } else {
+          const username = user.user_metadata.full_name;
+          document.getElementById("username").textContent = username;
 
-            if (user.user_metadata.avatar_url){
-                const img = document.querySelector("figure img");
-                img.setAttribute("src", user.user_metadata.avatar_url);
-                document.querySelector(".media-left").classList.remove("is-hidden");
-            }
-            get_functions();
-            document.querySelector("body").classList.remove("is-hidden");
-         }
-       });
+          if (user.user_metadata.avatar_url) {
+            const img = document.querySelector("figure img");
+            img.setAttribute("src", user.user_metadata.avatar_url);
+            document.querySelector(".media-left").classList.remove("is-hidden");
+          }
+          get_functions();
+          document.querySelector("body").classList.remove("is-hidden");
+        }
+      });
 
-       netlifyIdentity.on("logout", () => {
-         location.href = "/login";
-       });
+      netlifyIdentity.on("logout", () => {
+        location.href = "/login";
+      });
 
-       function create_function() {
-         checkUser();
+      function create_function() {
+        checkUser();
 
-         const funcnameEl = document.querySelector("#funcname");
-         funcnameEl.setAttribute("disabled", "true");
+        const funcnameEl = document.querySelector("#funcname");
+        funcnameEl.setAttribute("disabled", "true");
 
-         if (!funcnameEl.value) return;
+        if (!funcnameEl.value) return;
 
-         const user = netlifyIdentity.currentUser();
+        const user = netlifyIdentity.currentUser();
 
-         const func = {
-           owner: user.id,
-           name: funcnameEl.value,
-           code: "[pf::init]",
-         };
+        const func = {
+          owner: user.id,
+          name: funcnameEl.value,
+          code: "[pf::init]",
+        };
 
-         fetch(`${window.baseURL}/save`, {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/x-www-form-urlencoded",
-           },
-           body: `funcowner=${func.owner}&funcname=${func.name}&funccode=${func.code}`,
-         })
-           .then((res) => {
-             return res.json();
-           })
-           .then((res) => {
-             location.href = `edit?url=${window.baseURL}/${func.owner}/${func.name}`;
-           })
-           .catch((err) => {
-             funcnameEl.removeAttribute("disabled");
-             console.error(err);
-           });
-       }
+        fetch(`${window.baseURL}/save`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `funcowner=${func.owner}&funcname=${func.name}&funccode=${func.code}`,
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            location.href = `edit?url=${window.baseURL}/${func.owner}/${func.name}`;
+          })
+          .catch((err) => {
+            funcnameEl.removeAttribute("disabled");
+            console.error(err);
+          });
+      }
 
-       function get_functions() {
-         checkUser();
+      function get_functions() {
+        checkUser();
 
-         const user = netlifyIdentity.currentUser();
-         const owner = user.id;
+        const user = netlifyIdentity.currentUser();
+        const owner = user.id;
 
-         fetch(`${window.baseURL}/${owner}/functions`)
-           .then((res) => {
-             return res.json();
-           })
-           .then((res) => {
-             document.querySelector("table").classList.toggle("is-hidden");
-             const listEl = document.querySelector("tbody");
-             if (!res.funcs) return;
-             res.funcs.forEach((func) => {
-               listEl.innerHTML += `<tr>
+        fetch(`${window.baseURL}/${owner}/functions`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            document.querySelector("table").classList.toggle("is-hidden");
+            const listEl = document.querySelector("tbody");
+            if (!res.funcs) return;
+            res.funcs.forEach((func) => {
+              listEl.innerHTML += `<tr>
                          <th><a href="edit?url=${func.url}">${func.name}</a></th>
       	<th><a href="${func.url}" title="Cliquez pour la tester" target="_blank" class="has-text-grey is-family-code has-text-weight-light is-size-7">${func.url}</a></th>
       	<td>
@@ -184,19 +195,19 @@
       		</div>
       	</td>
       </tr>`;
-             });
-           })
-           .catch((err) => {
-             console.error(err);
-           });
-       }
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
 
-       function checkUser() {
-         const user = netlifyIdentity.currentUser();
-         if (!user) {
-           location.href = "/login";
-         }
-       }
+      function checkUser() {
+        const user = netlifyIdentity.currentUser();
+        if (!user) {
+          location.href = "/login";
+        }
+      }
     </script>
   </body>
 </html>
