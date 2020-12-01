@@ -24,7 +24,7 @@
       property="og:description"
       content="Plateforme de création de fonctions PHP sans serveur."
     />
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="website" />
 
     <link
       rel="stylesheet"
@@ -51,6 +51,12 @@
       type="text/javascript"
       src="https://identity.netlify.com/v1/netlify-identity-widget.js"
     ></script>
+
+    <!-- Font Awesome Icons -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"
+    ></script>
   </head>
 
   <body>
@@ -61,20 +67,8 @@
         >
           <h1 class="is-unselectable">
             <a href=".">
-              <span class="icon is-small">
-                <svg
-                  class="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg> </span
-              >Liste des fonctions
+              <span class="icon is-small"><i class="fa fa-arrow-left"></i></span>
+              Liste des fonctions
             </a>
           </h1>
           <div id="sec-url" class="field is-horizontal mb-0 is-hidden">
@@ -87,19 +81,7 @@
                   <button class="button is-small is-link" onclick="test()">
                     <span>Tester</span>
                     <span class="icon is-small">
-                      <svg
-                        class="w-6 h-6"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"
-                        ></path>
-                        <path
-                          d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
-                        ></path>
-                      </svg>
+                      <i class="fa fa-external-link-alt"></i>
                     </span>
                   </button>
                 </div>
