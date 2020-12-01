@@ -126,14 +126,14 @@
         if (!user && !location.href.includes("gitpod")) {
           location.href = "/login";
         } else {
-          /*const username = user.user_metadata.full_name;
+          const username = user.user_metadata.full_name;
           document.getElementById("username").textContent = username;
 
           if (user.user_metadata.avatar_url) {
             const img = document.querySelector("figure img");
             img.setAttribute("src", user.user_metadata.avatar_url);
             document.querySelector(".media-left").classList.remove("is-hidden");
-          }*/
+          }
           get_functions();
           document.querySelector("body").classList.remove("is-hidden");
         }
@@ -179,10 +179,10 @@
       }
 
       function get_functions() {
-        /*checkUser();
+        checkUser();
 
         const user = netlifyIdentity.currentUser();
-        const owner = user.id;*/
+        const owner = user.id;
         const owner = "public";
 
         fetch(`${window.baseURL}/${owner}/functions`)
